@@ -1,0 +1,85 @@
+.message-text pre {
+    background-color: var(--code-bg);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    font-family: 'Courier New', Courier, monospace;
+    position: relative;
+}
+
+.message-text code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+.message-text pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.9rem;
+}
+
+.message-text blockquote {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1rem;
+    margin: 0.5rem 0;
+    color: var(--text-muted);
+}
+
+.message-text h1, .message-text h2, .message-text h3 {
+    margin: 1rem 0 0.5rem;
+    color: white;
+}
+
+.message-text h1 {
+    font-size: 1.5rem;
+}
+
+.message-text h2 {
+    font-size: 1.3rem;
+}
+
+.message-text h3 {
+    font-size: 1.1rem;
+}
+
+.message-text ul, .message-text ol {
+    margin: 0.5rem 0 0.5rem 1.5rem;
+}
+
+.message-text hr {
+    border: none;
+    border-top: 1px solid var(--background-light);
+    margin: 1rem 0;
+}
+
+/* Syntax highlighting */
+.message-text .language-javascript .keyword { color: #cc7832; }
+.message-text .language-javascript .string { color: #6a8759; }
+.message-text .language-javascript .number { color: #6897bb; }
+.message-text .language-javascript .comment { color: #808080; }
+.message-text .language-javascript .function { color: #ffc66d; }
+.message-text .language-javascript .operator { color: #a9b7c6; }
+
+.message-text .language-html .tag { color: #e8bf6a; }
+.message-text .language-html .attribute { color: #bababa; }
+.message-text .language-html .value { color: #a5c261; }
+
+.message-text .language-css .property { color: #bababa; }
+.message-text .language-css .value { color: #a5c261; }
+.message-text .language-css .keyword { color: #cc7832; }
+
+.message-text .language-python .keyword { color: #cc7832; }
+.message-text .language-python .string { color: #6a8759; }
+.message-text .language-python .number { color: #6897bb; }
+.message-text .language-python .comment { color: #808080; }
+.message-text .language-python .function { color: #ffc66d; }
+
+.message-text .language-json .property { color: #9876aa; }
+.message-text .language-json .string { color: #6a8759; }
+.message-text .language-json .number { color: #6897bb; }
+.message-text .language-json .keyword { color: #cc7832; }
