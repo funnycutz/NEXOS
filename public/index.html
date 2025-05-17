@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEXOS - Real-time Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/markdown.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Auth Screen -->
+        <div id="auth-screen" class="screen">
+            <div class="auth-container">
+                <div class="logo-container">
+                    <img src="images/logo.png" alt="NEXOS Logo" class="logo">
+                    <h1>NEXOS</h1>
+                </div>
+                <div id="auth-forms">
+                    <div id="login-form" class="auth-form">
+                        <h2>Login</h2>
+                        <input type="email" id="login-email" placeholder="Email" required>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                        <button id="login-btn" class="btn-primary">Login</button>
+                        <button id="google-login-btn" class="btn-google">
+                            <i class="fab fa-google"></i> Login with Google
+                        </button>
+                        <p class="auth-switch">Don't have an account? <a href="#" id="show-register">Register</a></p>
+                    </div>
+                    <div id="register-form" class="auth-form hidden">
+                        <h2>Register</h2>
+                        <input type="text" id="register-username" placeholder="Username" required>
+                        <input type="email" id="register-email" placeholder="Email" required>
+                        <input type="password" id="register-password" placeholder="Password" required>
+                        <button id="register-btn" class="btn-primary">Register</button>
+                        <button id="google-register-btn" class="btn-google">
+                            <i class="fab fa-google"></i> Register with Google
+                        </button>
+                        <p class="auth-switch">Already have an account? <a href="#" id="show-login">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Screen -->
+        <div id="chat-screen" class="screen hidden">
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-profile">
+                        <img id="user-avatar" src="" alt="User Avatar">
+                        <span id="username-display"></span>
+                    </div>
+                    <button id="logout-btn" class="btn-icon" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="user-search" placeholder="Search users...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="channels-list">
+                    <div class="channel active" data-channel="general">
+                        <i class="fas fa-hashtag"></i>
+                        <span>General</span>
+                    </div>
+                    <div class="channel-header">
+                        <span>DIRECT MESSAGES</span>
+                        <button id="new-dm-btn" class="btn-icon" title="New DM">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div id="dm-list" class="dm-list">
+                        <!-- DMs will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="channel-info">
+                        <i class="fas fa-hashtag" id="channel-icon"></i>
+                        <h2 id="channel-name">General</h2>
+                    </div>
+                    <div class="channel-members">
+                        <span id="member-count">0 online</span>
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                </div>
+                <div class="messages-container" id="messages-container">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                <div class="message-input-container">
+                    <div class="message-actions">
+                        <button id="attach-btn" class="btn-icon" title="Attach file">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <input type="file" id="file-input" hidden>
+                    </div>
+                    <div class="message-editor">
+                        <div id="message-input" contenteditable="true" placeholder="Type your message here..."></div>
+                        <button id="send-btn" class="btn-icon" title="Send message">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor Elements -->
+    <div id="cursor-trail"></div>
+    <div id="custom-cursor"></div>
+
+    <!-- Modal for new DM -->
+    <div id="new-dm-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>New Direct Message</h3>
+                <button id="close-dm-modal" class="btn-icon">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="dm-search" placeholder="Search users...">
+                <div id="dm-search-results" class="user-search-results">
+                    <!-- Search results will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for image preview -->
+    <div id="image-preview-modal" class="modal hidden">
+        <div class="modal-content image-modal">
+            <div class="modal-header">
+                <button id="close-image-modal" class="btn-icon">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="previewed-image" src="" alt="Preview">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="js/marked.min.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
